@@ -1,0 +1,169 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-serif);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-oat: var(--oat);
+  --color-stone: var(--stone);
+  --color-navy: var(--navy);
+  --color-espresso: var(--espresso);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/*
+  Design tokens — "Premium Editorial" (Palette 04)
+  Primary Red #D02622 / Oat Cream #F2ECE4 / Warm Stone #CFC5BD /
+  Navy Slate #3E5667 / Espresso #2A201E
+  Red is a controlled accent (CTAs, links, active states, data emphasis) —
+  the interface is built on neutrals, never dominated by it.
+*/
+:root {
+  --background: #fdfcfb;
+  --foreground: #2a201e;
+  --card: #ffffff;
+  --card-foreground: #2a201e;
+  --popover: #ffffff;
+  --popover-foreground: #2a201e;
+  --primary: #d02622;
+  --primary-foreground: #fdfcfb;
+  --secondary: #3e5667;
+  --secondary-foreground: #fdfcfb;
+  --muted: #f2ece4;
+  --muted-foreground: #6b615c;
+  --accent: #f2ece4;
+  --accent-foreground: #2a201e;
+  --destructive: #b91c1c;
+  --border: #e4ddd4;
+  --input: #e4ddd4;
+  --ring: #d02622;
+  --chart-1: #3e5667;
+  --chart-2: #d02622;
+  --chart-3: #cfc5bd;
+  --chart-4: #24384a;
+  --chart-5: #2a201e;
+  --radius: 0.375rem;
+  --sidebar: #f2ece4;
+  --sidebar-foreground: #2a201e;
+  --sidebar-primary: #d02622;
+  --sidebar-primary-foreground: #fdfcfb;
+  --sidebar-accent: #ffffff;
+  --sidebar-accent-foreground: #2a201e;
+  --sidebar-border: #e4ddd4;
+  --sidebar-ring: #d02622;
+
+  --oat: #f2ece4;
+  --stone: #cfc5bd;
+  --navy: #3e5667;
+  --espresso: #2a201e;
+}
+
+.dark {
+  --background: #211917;
+  --foreground: #f2ece4;
+  --card: #2a201e;
+  --card-foreground: #f2ece4;
+  --popover: #2a201e;
+  --popover-foreground: #f2ece4;
+  --primary: #e5433d;
+  --primary-foreground: #211917;
+  --secondary: #52677d;
+  --secondary-foreground: #f2ece4;
+  --muted: #362a27;
+  --muted-foreground: #cfc5bd;
+  --accent: #362a27;
+  --accent-foreground: #f2ece4;
+  --destructive: #dc4c47;
+  --border: #40332f;
+  --input: #40332f;
+  --ring: #e5433d;
+  --chart-1: #7c93a3;
+  --chart-2: #e5433d;
+  --chart-3: #8a8079;
+  --chart-4: #52677d;
+  --chart-5: #cfc5bd;
+  --sidebar: #2a201e;
+  --sidebar-foreground: #f2ece4;
+  --sidebar-primary: #e5433d;
+  --sidebar-primary-foreground: #211917;
+  --sidebar-accent: #362a27;
+  --sidebar-accent-foreground: #f2ece4;
+  --sidebar-border: #40332f;
+  --sidebar-ring: #e5433d;
+
+  /* oat/stone/navy/espresso are fixed brand colors, not theme-relative:
+     the footer and final-CTA band are meant to read as a constant dark
+     accent in both themes, not flip to light in dark mode. */
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans scroll-smooth;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
