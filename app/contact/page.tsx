@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MapPin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { GithubIcon, LinkedinIcon, WhatsappIcon } from "@/components/icons/brand-icons";
 import { PageHeader } from "@/components/page-header";
 import { FadeIn } from "@/components/fade-in";
@@ -14,6 +14,12 @@ export const metadata: Metadata = {
 };
 
 const CHANNELS = [
+  {
+    icon: Mail,
+    label: "Email",
+    value: PERSON.email,
+    href: `mailto:${PERSON.email}`,
+  },
   {
     icon: WhatsappIcon,
     label: "WhatsApp",

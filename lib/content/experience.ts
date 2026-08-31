@@ -10,16 +10,18 @@ export type ExperienceItem = {
 
 export const EXPERIENCE: ExperienceItem[] = [
   {
-    role: "Network Analyst",
+    role: "Network Planning & Analytics Specialist / Network Data Scientist",
     company: "JamboJet",
     companyUrl: "https://www.jambojet.com/",
     location: "Nairobi, Kenya",
     start: "Dec 2023",
     end: "Present",
     highlights: [
-      "Designed and developed production-level code to monitor market trends, capturing an 8% increase in seasonal demand fluctuations.",
-      "Delivered impactful reports using advanced visualisations, contributing to a 5% increase in on-time performance (OTP) and a 7% reduction in turnaround time.",
-      "Orchestrated 9-month flight schedules, leveraging Azure data to enhance operational efficiency by 15%.",
+      "Analyse 3M+ passenger, booking, scheduling, operational and commercial records annually to identify demand patterns, network opportunities, capacity constraints, route performance drivers and revenue improvement opportunities.",
+      "Develop demand forecasting, predictive and scenario models supporting capacity allocation, frequency optimisation, schedule adjustments, route development, seasonal planning and commercial decision-making.",
+      "Evaluate booking trends, passenger demand, load factors, aircraft utilisation, RASK, route profitability, schedule performance and operational reliability to support network and revenue optimisation.",
+      "Develop automated Power BI dashboards, KPI frameworks and analytical workflows, reducing reporting turnaround time by 40%+ and strengthening visibility of network, commercial and operational performance.",
+      "Partner with Revenue Management, Commercial, Finance, Operations, Engineering and senior stakeholders to translate complex analytical findings into business cases, network actions and measurable recommendations.",
     ],
   },
   {
@@ -28,7 +30,7 @@ export const EXPERIENCE: ExperienceItem[] = [
     companyUrl: "https://astral-aviation.com/",
     location: "Nairobi, Kenya",
     start: "Sep 2021",
-    end: "Oct 2023",
+    end: "Nov 2023",
     highlights: [
       "Elevated safety standards by 25% through rigorous analysis of Safety Management Systems (SMS) data and the creation of performance metrics, KPIs, and dynamic dashboards using Tableau and MS Excel.",
       "Developed and deployed an R script for efficient data mining, cleaning, and population of 1,500+ rows of delay data from in-house operational messages.",
@@ -72,14 +74,11 @@ export type Certification = {
 };
 
 export const CERTIFICATIONS: Certification[] = [
+  { name: "IATA Network, Fleet & Schedule Planning", provider: "IATA" },
   {
     name: "Google Data Analytics Professional Certificate",
     provider: "Google via Coursera",
     url: "https://www.coursera.org/account/accomplishments/verify/DSHCLUW3C7Z6",
   },
-  { name: "Microsoft Excel Data Analysis", provider: "Microsoft" },
-  { name: "Tableau Desktop Specialist", provider: "Tableau" },
-  { name: "Microsoft Fabric", provider: "DataCamp" },
-  { name: "Azure Data Fundamentals", provider: "Microsoft" },
-  { name: "Power BI Data Analyst Associate", provider: "Microsoft" },
+  { name: "Microsoft Fabric Analyst in a Day", provider: "Microsoft" },
 ];

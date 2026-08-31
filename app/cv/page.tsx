@@ -36,6 +36,7 @@ export default function CvPage() {
               <p className="text-sm text-muted-foreground">
                 {PERSON.role} · {PERSON.location}
               </p>
+              <p className="text-sm text-muted-foreground">{PERSON.email}</p>
             </div>
             <Button asChild>
               <Link href={CV_DOWNLOAD_URL} target="_blank" rel="noopener noreferrer">

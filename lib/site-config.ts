@@ -3,13 +3,14 @@ export const SITE_URL = "https://www.felixodhiambo.com";
 
 export const PERSON = {
   name: "Felix Ogutu Odhiambo",
-  role: "Aviation Analytics Professional",
+  role: "Aviation Analytics & Network Planning Professional",
   location: "Nairobi, Kenya",
+  email: "felixogutu889@gmail.com",
   yearsExperience: 5,
   positioning:
-    "Aviation analytics professional turning network, operations, and commercial data into decisions that improve performance.",
+    "Aviation analytics professional turning network, revenue, and commercial data into decisions that improve performance.",
   supportingCopy:
-    "Five-plus years across network planning, commercial analytics, and safety performance in East African aviation, building the dashboards, models, and reports that operators use to run the airline.",
+    "Five-plus years across airline network planning, revenue management, and cargo analytics, analysing 2M-3M+ operational and commercial records a year to build the forecasting models, dashboards, and business cases operators act on.",
 } as const;
 
 export const SOCIAL_LINKS = {
@@ -18,9 +19,7 @@ export const SOCIAL_LINKS = {
   whatsapp: "https://wa.me/254799311741",
 } as const;
 
-// TODO(felix): replace with a hosted PDF (e.g. Supabase Storage) once supplied.
-export const CV_DOWNLOAD_URL =
-  "https://drive.google.com/file/d/1C7_LRqyqUEDrk_Ov7Pc2BxKpEjXqfEQk/view";
+export const CV_DOWNLOAD_URL = "/documents/felix-ogutu-odhiambo-resume.pdf";
 
 export const NAV_LINKS = [
   { href: "/", label: "Home" },
