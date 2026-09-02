@@ -14,14 +14,3 @@ export type BlogPost = {
   created_at: string;
   updated_at: string;
 };
-
-export type ContactSubmission = {
-  id: string;
-  name: string;
-  email: string;
-  organisation: string | null;
-  enquiry_type: string;
-  timeline: string | null;
-  message: string;
-  created_at: string;
-};

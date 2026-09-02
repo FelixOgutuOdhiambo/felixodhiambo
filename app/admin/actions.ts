@@ -113,3 +113,35 @@ export async function deletePost(id: string) {
   revalidatePath("/admin/posts");
   revalidatePath("/insights");
 }
+
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+const ALLOWED_IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"];
+
+export async function uploadBlogCoverImage(formData: FormData) {
+  await requireAdmin();
+
+  const file = formData.get("file");
+  if (!(file instanceof File)) throw new Error("No file provided.");
+  if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+    throw new Error("Unsupported file type. Use PNG, JPEG, WebP, or GIF.");
+  }
+  if (file.size > MAX_IMAGE_BYTES) {
+    throw new Error("Image is too large (max 5MB).");
+  }
+
+  const supabase = createServiceRoleClient();
+  const ext = file.name.split(".").pop() || "png";
+  const path = `${crypto.randomUUID()}.${ext}`;
+
+  const { error } = await supabase.storage
+    .from("blog-images")
+    .upload(path, file, { contentType: file.type });
+
+  if (error) throw new Error(error.message);
+
+  const {
+    data: { publicUrl },
+  } = supabase.storage.from("blog-images").getPublicUrl(path);
+
+  return publicUrl;
+}

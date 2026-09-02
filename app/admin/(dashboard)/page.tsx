@@ -18,24 +18,15 @@ export default async function AdminOverviewPage() {
 
   const supabase = createServiceRoleClient();
 
-  const [{ count: submissionsCount }, { count: postsCount }, { count: publishedCount }] =
-    await Promise.all([
-      supabase
-        .from("contact_submissions")
-        .select("*", { count: "exact", head: true }),
-      supabase.from("blog_posts").select("*", { count: "exact", head: true }),
-      supabase
-        .from("blog_posts")
-        .select("*", { count: "exact", head: true })
-        .eq("published", true),
-    ]);
+  const [{ count: postsCount }, { count: publishedCount }] = await Promise.all([
+    supabase.from("blog_posts").select("*", { count: "exact", head: true }),
+    supabase
+      .from("blog_posts")
+      .select("*", { count: "exact", head: true })
+      .eq("published", true),
+  ]);
 
   const stats = [
-    {
-      label: "Contact enquiries",
-      value: submissionsCount ?? 0,
-      href: "/admin/submissions",
-    },
     {
       label: "Blog posts (total)",
       value: postsCount ?? 0,

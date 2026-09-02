@@ -1,14 +1,20 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { ImagePlus, Loader2, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { createPost, updatePost, type PostInput } from "@/app/admin/actions";
+import {
+  createPost,
+  updatePost,
+  uploadBlogCoverImage,
+  type PostInput,
+} from "@/app/admin/actions";
 import type { BlogPost } from "@/lib/supabase/types";
 
 function slugify(value: string) {
@@ -21,7 +27,9 @@ function slugify(value: string) {
 
 export function PostForm({ post }: { post?: BlogPost }) {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isPending, startTransition] = useTransition();
+  const [isUploading, setIsUploading] = useState(false);
   const [values, setValues] = useState<PostInput>({
     slug: post?.slug ?? "",
     title: post?.title ?? "",
@@ -32,6 +40,27 @@ export function PostForm({ post }: { post?: BlogPost }) {
     cover_image_url: post?.cover_image_url ?? "",
     content: post?.content ?? "",
   });
+
+  const onFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.set("file", file);
+
+    startTransition(async () => {
+      try {
+        const url = await uploadBlogCoverImage(formData);
+        setValues((v) => ({ ...v, cover_image_url: url }));
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : "Upload failed.");
+      } finally {
+        setIsUploading(false);
+      }
+    });
+  };
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,34 +142,80 @@ export function PostForm({ post }: { post?: BlogPost }) {
         </div>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div className="space-y-2">
-          <Label htmlFor="reading_time">Reading time (minutes)</Label>
-          <Input
-            id="reading_time"
-            type="number"
-            min={1}
-            value={values.reading_time_minutes ?? ""}
-            onChange={(e) =>
-              setValues((v) => ({
-                ...v,
-                reading_time_minutes: e.target.value
-                  ? Number(e.target.value)
-                  : null,
-              }))
-            }
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="cover_image_url">Cover image URL</Label>
-          <Input
-            id="cover_image_url"
-            value={values.cover_image_url}
-            onChange={(e) =>
-              setValues((v) => ({ ...v, cover_image_url: e.target.value }))
-            }
-          />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="reading_time">Reading time (minutes)</Label>
+        <Input
+          id="reading_time"
+          type="number"
+          min={1}
+          className="max-w-40"
+          value={values.reading_time_minutes ?? ""}
+          onChange={(e) =>
+            setValues((v) => ({
+              ...v,
+              reading_time_minutes: e.target.value
+                ? Number(e.target.value)
+                : null,
+            }))
+          }
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label>Cover image</Label>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/png,image/jpeg,image/webp,image/gif"
+          className="hidden"
+          onChange={onFileSelected}
+        />
+
+        {values.cover_image_url ? (
+          <div className="relative w-full max-w-sm overflow-hidden rounded-lg border border-border">
+            <Image
+              src={values.cover_image_url}
+              alt="Cover"
+              width={640}
+              height={360}
+              className="aspect-video w-full object-cover"
+            />
+            <div className="absolute inset-0 flex items-center justify-center gap-2 bg-black/40 opacity-0 transition-opacity hover:opacity-100">
+              <Button
+                type="button"
+                size="sm"
+                variant="secondary"
+                disabled={isUploading}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                Replace
+              </Button>
+              <Button
+                type="button"
+                size="icon"
+                variant="secondary"
+                onClick={() => setValues((v) => ({ ...v, cover_image_url: "" }))}
+                aria-label="Remove cover image"
+              >
+                <X className="size-4" />
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <button
+            type="button"
+            disabled={isUploading}
+            onClick={() => fileInputRef.current?.click()}
+            className="flex w-full max-w-sm cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border py-10 text-sm text-muted-foreground hover:border-primary/50 hover:text-foreground disabled:cursor-not-allowed"
+          >
+            {isUploading ? (
+              <Loader2 className="size-5 animate-spin" />
+            ) : (
+              <ImagePlus className="size-5" />
+            )}
+            {isUploading ? "Uploading..." : "Click to upload an image"}
+          </button>
+        )}
       </div>
 
       <div className="space-y-2">
@@ -156,7 +231,7 @@ export function PostForm({ post }: { post?: BlogPost }) {
         />
       </div>
 
-      <Button type="submit" disabled={isPending}>
+      <Button type="submit" disabled={isPending || isUploading}>
         {isPending && <Loader2 className="size-4 animate-spin" />}
         {post ? "Save changes" : "Create post"}
       </Button>

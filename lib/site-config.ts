@@ -21,6 +21,8 @@ export const SOCIAL_LINKS = {
 
 export const CV_DOWNLOAD_URL = "/documents/felix-ogutu-odhiambo-resume.pdf";
 
+export const FORMSPREE_ENDPOINT = "https://formspree.io/f/mjkjbngk";
+
 export const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },

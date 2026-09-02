@@ -6,15 +6,17 @@
 --     real static content in lib/content/*.ts. The `projects` and
 --     `testimonials` tables below exist so an admin dashboard can take
 --     over that content later — the app does not read from them yet.
---   * `blog_posts` and `contact_submissions` are live from day one: the
---     insights section starts empty, and the contact form has to land
---     somewhere real.
+--   * `blog_posts` is live from day one: the insights section starts
+--     empty and is managed entirely through /admin.
 --   * Admin writes go through Server Actions using the service-role key
 --     (server-only, never shipped to the browser). Public reads use the
 --     anon key and are restricted by RLS to published rows only.
---   * contact_submissions has NO anon/authenticated policy at all — the
---     table is unreadable and unwritable from the client. Inserts happen
---     exclusively via a Server Action using the service-role client.
+--   * The contact form submits directly to Formspree client-side — it
+--     does not touch this database at all, so there is no
+--     contact_submissions table here.
+--   * Blog cover images live in a public Storage bucket named
+--     "blog-images" (created via the Storage API, not SQL — see
+--     app/admin/actions.ts:uploadBlogCoverImage).
 
 create extension if not exists "pgcrypto";
 
@@ -129,25 +131,6 @@ create policy "Public can read published testimonials"
   on public.testimonials for select
   to anon, authenticated
   using (published = true);
-
--- ---------------------------------------------------------------------
--- contact_submissions — no client-facing policy at all.
--- Inserts happen only via a Server Action using the service-role key.
--- ---------------------------------------------------------------------
-create table if not exists public.contact_submissions (
-  id uuid primary key default gen_random_uuid(),
-  name text not null,
-  email text not null,
-  organisation text,
-  enquiry_type text not null,
-  timeline text,
-  message text not null,
-  created_at timestamptz not null default now()
-);
-
-alter table public.contact_submissions enable row level security;
--- Intentionally no policies: default-deny for anon and authenticated.
--- Only the service-role key (used server-side) can read or write this table.
 
 -- ---------------------------------------------------------------------
 -- site_settings — small key/value store for lightweight global toggles.

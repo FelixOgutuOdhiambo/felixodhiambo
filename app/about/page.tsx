@@ -44,25 +44,25 @@ export default function AboutPage() {
 
           <FadeIn delay={0.1} className="space-y-4 text-pretty">
             <p className="text-lg text-foreground/90">
-              {PERSON.name} is an aviation analytics professional based in{" "}
+              I&apos;m an aviation analytics professional based in{" "}
               {PERSON.location}, with {PERSON.yearsExperience}+ years working
               across data analysis, safety performance, and network planning
               in East African aviation.
             </p>
             <p className="text-muted-foreground">
-              He holds a Bachelor of Applied Science in Statistics from{" "}
-              {EDUCATION[0].institution} and began his career as a Data
+              I hold a Bachelor of Applied Science in Statistics from{" "}
+              {EDUCATION[0].institution} and began my career as a Data
               Analyst Intern at Astral Aviation, building an Excel-based error
-              detection system that cut data inaccuracies by half. He moved
-              into a full Data Analyst role, where he spent two years turning
+              detection system that cut data inaccuracies by half. I moved
+              into a full Data Analyst role, where I spent two years turning
               Safety Management System data into dashboards and automating
               manual reporting processes.
             </p>
             <p className="text-muted-foreground">
-              Since December 2023, he has worked as a Network Analyst at
+              Since December 2023, I&apos;ve worked as a Network Analyst at
               JamboJet, monitoring market trends, reporting on-time
               performance, and coordinating multi-month flight schedules on
-              Azure. Alongside his employed work, he built an independent
+              Azure. Alongside my employed work, I built an independent
               research pipeline analysing CO₂ emissions across European
               aviation using public Eurocontrol data. See the{" "}
               <Link

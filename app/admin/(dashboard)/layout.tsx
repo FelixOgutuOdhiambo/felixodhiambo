@@ -1,13 +1,12 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { LayoutDashboard, MessageSquare, Newspaper, LogOut } from "lucide-react";
+import { LayoutDashboard, Newspaper, LogOut } from "lucide-react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import { signOut } from "@/app/admin/actions";
 import { Button } from "@/components/ui/button";
 
 const NAV = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
-  { href: "/admin/submissions", label: "Enquiries", icon: MessageSquare },
   { href: "/admin/posts", label: "Posts", icon: Newspaper },
 ];
 

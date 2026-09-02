@@ -21,7 +21,7 @@ import {
   contactFormSchema,
   type ContactFormValues,
 } from "@/lib/validations/contact";
-import { submitContactForm } from "@/app/contact/actions";
+import { FORMSPREE_ENDPOINT } from "@/lib/site-config";
 
 export function ContactForm() {
   const [isPending, startTransition] = useTransition();
@@ -47,15 +47,33 @@ export function ContactForm() {
   const enquiryType = watch("enquiryType");
 
   const onSubmit = handleSubmit((values) => {
+    // Honeypot tripped — pretend success, submit nothing.
+    if (values.company) {
+      toast.success("Message sent. Thanks for reaching out.");
+      reset();
+      return;
+    }
+
     startTransition(async () => {
-      const result = await submitContactForm(values);
-      if (result.status === "success") {
+      try {
+        const payload = { ...values };
+        delete payload.company;
+        const res = await fetch(FORMSPREE_ENDPOINT, {
+          method: "POST",
+          headers: { Accept: "application/json", "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) throw new Error("Submission failed");
+
         toast.success("Message sent. Thanks for reaching out.", {
           description: "I'll get back to you as soon as I can.",
         });
         reset();
-      } else {
-        toast.error(result.message);
+      } catch {
+        toast.error(
+          "Something went wrong sending your message. Please try WhatsApp or LinkedIn instead."
+        );
       }
     });
   });
