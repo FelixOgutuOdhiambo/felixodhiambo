@@ -1,178 +1,107 @@
-# Felix Odhiambo - Data Science Portfolio
+# Felix Ogutu Odhiambo — Portfolio
 
-[![Portfolio](https://img.shields.io/badge/Portfolio-Live-brightgreen)](https://www.felixodhiambo.com/)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://www.linkedin.com/in/felixogutu889)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-black)](https://github.com/F3L1X2403)
+Aviation analytics professional site for Felix Ogutu Odhiambo, rebuilt on
+Next.js 16 (App Router), TypeScript, Tailwind CSS v4, shadcn/ui, and
+Supabase. The previous static HTML/CSS/JS site is preserved as-is in
+[`legacy-static-site/`](./legacy-static-site) for reference.
 
-## Overview
+## Stack
 
-Welcome to my professional portfolio website! I'm **Felix Ogutu Odhiambo**, a Data Scientist and Data Specialist based in Nairobi, Kenya. This website showcases my expertise in aviation data analysis, predictive analytics, and operational optimization.
+- **Framework:** Next.js 16 (App Router, Turbopack, Server Components by default)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4 (CSS-first config in `app/globals.css`)
+- **UI:** shadcn/ui (Radix primitives) + Lucide icons
+- **Animation:** Framer Motion
+- **Charts:** Recharts
+- **Forms:** React Hook Form + Zod
+- **Backend:** Supabase (Postgres, Auth, RLS, Storage)
+- **Contact form:** Formspree (submits client-side, no backend involved)
+- **Analytics:** Vercel Analytics + Speed Insights
+- **Deployment:** Vercel
 
-With over four years of experience in aviation data, I transform complex datasets into actionable insights that drive business decisions and enhance operational efficiency. My specialization lies in creating compelling data narratives that bridge the gap between technical analysis and business understanding.
+## Getting started
 
-## Key Features
-
-### Interactive Hero Section
-- Dynamic typing animation showcasing my roles
-- Responsive design with smooth animations
-- Dark/Light mode toggle
-
-### Professional Experience Timeline
-- Network Analyst at Jambo Jet (Current)
-- Data Analyst at Astral Aviation Ltd
-- Internship experience with data quality improvements
-
-### Education & Certifications
-- Google Data Analytics Professional Certificate
-- Bachelor's in Applied Science in Statistics
-
-### Featured Projects
-- **Airline Fleet Performance Optimization**: Predictive maintenance and performance analytics
-- **Safety Management System Analytics Platform**: Risk assessment and compliance monitoring
-- **Air Traffic Management Dashboard**: Operational optimization and efficiency improvements
-
-### Technical Skills Showcase
-- Programming: R, Advanced Excel, Azure Data Technologies
-- Analytics: Predictive Modeling, Statistical Analysis, Data Visualization
-- Tools: Tableau, Power BI, Statistical Analysis Software
-
-### Testimonials & Recommendations
-- Professional endorsements from industry colleagues
-- Automated carousel with smooth transitions
-
-### Contact Integration
-- Functional contact form with Formspree integration
-- WhatsApp direct messaging
-- Interactive 3D data visualization (torus animation)
-
-### Additional Features
-- Progressive Web App (PWA) capabilities
-- Mobile-responsive design
-- SEO optimized with structured data
-- Accessibility features
-- Smooth scrolling and navigation
-
-## 🛠 Technologies & Dependencies
-
-### Frontend
-- **HTML5** - Semantic markup and structure
-- **CSS3** - Responsive styling with custom animations
-- **JavaScript (ES6+)** - Interactive functionality
-
-### Libraries & Frameworks
-- **Three.js** - 3D torus animation in contact section
-- **Typed.js** - Dynamic typing effects
-- **Boxicons** - Modern icon library
-- **Formspree** - Serverless form handling
-
-### Development Tools
-- **Progressive Web App** - Service Worker + Web App Manifest
-- **SEO Optimization** - Meta tags, Open Graph, Twitter Cards
-- **Performance Optimization** - Lazy loading, code splitting
-
-## Project Structure
-
-```
-PortFolio/
-├── Index.html                 # Main HTML file
-├── README.md                  # Project documentation
-├── manifest.json              # PWA manifest
-├── sw.js                      # Service worker
-├── Css/
-│   ├── style.css             # Main stylesheet
-│   └── Css for Icons.css     # Icon-specific styles
-├── Jss/
-│   └── main.js               # Main JavaScript file
-├── Img/                      # Image assets
-│   ├── Felix's Picture.png
-│   ├── Aeroplane1.gif
-│   ├── Aeroplane2.jpg
-│   ├── Aeroplane3.jpg
-│   ├── Charles Simiyu Picture.png
-│   └── Dharmendra Vara Picture.png
-└── icons/                    # Icon assets
-    ├── Felix's Logo.jpeg
-    └── LinkedIn Icon.png
+```bash
+pnpm install
+pnpm dev
 ```
 
-## Installation & Setup
+## Environment variables
 
-### Prerequisites
-- Modern web browser (Chrome, Firefox, Safari, Edge)
-- Local server (optional, for development)
+The sandbox this project was built in blocks writing `.env*` files
+directly, so there's no `.env.example` — create `.env.local` yourself with
+the following:
 
-### Running Locally
+```bash
+# Supabase — https://app.supabase.com/project/_/settings/api
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+# Server-only. Never expose to the browser or commit a real value.
+SUPABASE_SERVICE_ROLE_KEY=
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/F3L1X2403/felix-portfolio.git
-   cd felix-portfolio
-   ```
+# Public site URL, used for metadata and OG tags
+NEXT_PUBLIC_SITE_URL=https://www.felixodhiambo.com
+```
 
-2. **Open in browser**
-   - Simply open `Index.html` in your browser
-   - For better development experience, use a local server:
-     ```bash
-     # Using Python (if installed)
-     python -m http.server 8000
+Add the same variables in Vercel's project settings for production/preview.
 
-     # Using Node.js (if installed)
-     npx serve .
+The Formspree endpoint (`lib/site-config.ts` → `FORMSPREE_ENDPOINT`) is
+public by design and doesn't need an env var.
 
-     # Or any local server of your choice
-     ```
+## Supabase setup
 
-3. **View the website**
-   - Open `http://localhost:8000/Index.html` in your browser
+1. Create a Supabase project.
+2. Run [`supabase/schema.sql`](./supabase/schema.sql) in the SQL editor (or
+   `supabase db push` if using the CLI). This creates `projects`,
+   `publications`, `blog_posts`, `testimonials`, and `site_settings`, with
+   RLS enabled on all of them.
+3. Create two public Storage buckets (Storage → New bucket → Public):
+   `blog-images` (blog cover images) and `publication-files` (research PDFs).
+4. Create one Supabase Auth user (email + password) for Felix — this is
+   the only account that can sign in at `/admin`.
 
-## Usage
+**What's actually wired to Supabase today:**
 
-### Navigation
-- **Desktop**: Use the sticky navigation bar
-- **Mobile**: Tap the hamburger menu for navigation
-- **Scroll**: Smooth scrolling to sections
+- `blog_posts` — `/insights` reads published posts from this table
+  (revalidated every 60s). `/admin/posts` manages create/edit/publish/delete,
+  including uploading cover images to the `blog-images` Storage bucket.
+- `publications` — `/research` reads published entries from this table
+  (revalidated every 60s). `/admin/publications` manages
+  create/edit/publish/delete, including uploading PDFs to the
+  `publication-files` Storage bucket.
 
-### Interactive Features
-- **Dark Mode**: Click the moon/sun icon to toggle themes
-- **Contact Form**: Fill out and submit the contact form
-- **WhatsApp**: Click the floating WhatsApp button for direct messaging
-- **Testimonials**: Click indicators to navigate testimonials
-- **3D Animation**: Move your mouse over the torus in the contact section
+`projects` and `testimonials` tables exist in the schema so an admin can
+eventually own that content, but the app currently reads projects and
+testimonials from reviewed, real static content in
+[`lib/content/`](./lib/content) — there was nothing there yet to migrate,
+and duplicating real content into an empty admin table would have been
+pure overhead. Point the relevant components at Supabase once that
+content needs to be editable without a deploy.
 
-### Customization
-- Update personal information in `Index.html`
-- Modify styles in `Css/style.css`
-- Adjust JavaScript functionality in `Jss/main.js`
-- Replace images in respective folders
+The contact form (`/contact`) does **not** touch Supabase — it submits
+directly to Formspree from the browser (`components/contact-form.tsx`).
+Enquiries land in Felix's Formspree dashboard/inbox, not in this app.
 
-## Live Demo
+## Admin dashboard
 
-Visit the live portfolio: [https://www.felixodhiambo.com/](https://www.felixodhiambo.com/)
+`/admin` is gated by Supabase Auth, enforced in two places:
 
-## Contributing
+- `proxy.ts` (Next 16's replacement for `middleware.ts`) redirects any
+  unauthenticated request to `/admin/login`.
+- Every Server Action in `app/admin/actions.ts` independently re-checks
+  the session before touching the database — a Server Action is a
+  directly callable endpoint, so the proxy check alone isn't enough.
 
-While this is a personal portfolio, suggestions and feedback are welcome! Please feel free to:
+Sign in at `/admin/login` with the Supabase Auth user created above.
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your improvements
-4. Submit a pull request
+## Content
 
-## License
+Real projects, experience, education, certifications, and testimonials
+live in [`lib/content/`](./lib/content), sourced from Felix's current CV
+and GitHub profile — nothing there is fabricated. Where information wasn't
+available (formal publications, additional testimonials), the
+corresponding section shows an honest empty/in-progress state instead of
+placeholder content.
 
-This project is open source and available under the [MIT License](LICENSE).
-
-## Contact & Connect
-
-**Felix Ogutu Odhiambo**
-- **Email**: [Contact via website form](https://www.felixodhiambo.com/#contact)
-- **LinkedIn**: [linkedin.com/in/felixogutu889](https://www.linkedin.com/in/felixogutu889)
-- **GitHub**: [github.com/F3L1X2403](https://github.com/F3L1X2403)
-- **WhatsApp**: [+254 799 311 741](https://wa.me/254799311741)
-- **Location**: Nairobi, Kenya
-
----
-
-*Designed with 💙 by Joseph Ogutu | Portfolio built with passion for data storytelling*
-# felixodhiambo
-# felixodhiambo
+The CV PDF is served directly from
+[`public/documents/felix-ogutu-odhiambo-resume.pdf`](./public/documents).
