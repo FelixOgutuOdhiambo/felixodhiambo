@@ -85,6 +85,7 @@ export function DataLab() {
                   setFilters((f) => ({
                     ...f,
                     projectSlug: f.projectSlug === projectSlug ? "all" : projectSlug,
+                    category: "all",
                   }))
                 }
               />

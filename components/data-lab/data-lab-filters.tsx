@@ -64,7 +64,9 @@ export function DataLabFilters({
         <FilterGroup
           label="Project"
           value={filters.projectSlug}
-          onChange={(projectSlug) => onChange({ ...filters, projectSlug })}
+          onChange={(projectSlug) =>
+            onChange({ ...filters, projectSlug, category: "all" })
+          }
           options={[
             { value: "all", label: "All projects" },
             ...projectOptions.map((p) => ({ value: p.slug, label: p.title })),
@@ -88,7 +90,9 @@ export function DataLabFilters({
       <FilterGroup
         label="Category"
         value={filters.category}
-        onChange={(category) => onChange({ ...filters, category })}
+        onChange={(category) =>
+          onChange({ ...filters, category, projectSlug: "all" })
+        }
         options={[
           { value: "all", label: "All categories" },
           ...categoryOptions.map((c) => ({ value: c, label: c })),
