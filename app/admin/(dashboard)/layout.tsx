@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { LayoutDashboard, Newspaper, LogOut } from "lucide-react";
+import { LayoutDashboard, Newspaper, GraduationCap, LogOut } from "lucide-react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import { signOut } from "@/app/admin/actions";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 const NAV = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
   { href: "/admin/posts", label: "Posts", icon: Newspaper },
+  { href: "/admin/publications", label: "Publications", icon: GraduationCap },
 ];
 
 export default async function AdminDashboardLayout({

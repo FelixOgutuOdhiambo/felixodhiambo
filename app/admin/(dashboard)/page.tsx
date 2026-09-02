@@ -18,13 +18,15 @@ export default async function AdminOverviewPage() {
 
   const supabase = createServiceRoleClient();
 
-  const [{ count: postsCount }, { count: publishedCount }] = await Promise.all([
-    supabase.from("blog_posts").select("*", { count: "exact", head: true }),
-    supabase
-      .from("blog_posts")
-      .select("*", { count: "exact", head: true })
-      .eq("published", true),
-  ]);
+  const [{ count: postsCount }, { count: publishedCount }, { count: publicationsCount }] =
+    await Promise.all([
+      supabase.from("blog_posts").select("*", { count: "exact", head: true }),
+      supabase
+        .from("blog_posts")
+        .select("*", { count: "exact", head: true })
+        .eq("published", true),
+      supabase.from("publications").select("*", { count: "exact", head: true }),
+    ]);
 
   const stats = [
     {
@@ -36,6 +38,11 @@ export default async function AdminOverviewPage() {
       label: "Published posts",
       value: publishedCount ?? 0,
       href: "/admin/posts",
+    },
+    {
+      label: "Publications",
+      value: publicationsCount ?? 0,
+      href: "/admin/publications",
     },
   ];
 

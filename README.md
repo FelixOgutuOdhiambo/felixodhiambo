@@ -55,8 +55,8 @@ public by design and doesn't need an env var.
    `supabase db push` if using the CLI). This creates `projects`,
    `publications`, `blog_posts`, `testimonials`, and `site_settings`, with
    RLS enabled on all of them.
-3. Create a public Storage bucket named `blog-images` (Storage → New
-   bucket → Public). Blog cover-image uploads from `/admin/posts` go here.
+3. Create two public Storage buckets (Storage → New bucket → Public):
+   `blog-images` (blog cover images) and `publication-files` (research PDFs).
 4. Create one Supabase Auth user (email + password) for Felix — this is
    the only account that can sign in at `/admin`.
 
@@ -65,10 +65,14 @@ public by design and doesn't need an env var.
 - `blog_posts` — `/insights` reads published posts from this table
   (revalidated every 60s). `/admin/posts` manages create/edit/publish/delete,
   including uploading cover images to the `blog-images` Storage bucket.
+- `publications` — `/research` reads published entries from this table
+  (revalidated every 60s). `/admin/publications` manages
+  create/edit/publish/delete, including uploading PDFs to the
+  `publication-files` Storage bucket.
 
-`projects`, `publications`, and `testimonials` tables exist in the schema
-so an admin can eventually own that content, but the app currently reads
-projects and testimonials from reviewed, real static content in
+`projects` and `testimonials` tables exist in the schema so an admin can
+eventually own that content, but the app currently reads projects and
+testimonials from reviewed, real static content in
 [`lib/content/`](./lib/content) — there was nothing there yet to migrate,
 and duplicating real content into an empty admin table would have been
 pure overhead. Point the relevant components at Supabase once that
