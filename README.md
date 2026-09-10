@@ -48,18 +48,50 @@ Add the same variables in Vercel's project settings for production/preview.
 The Formspree endpoint (`lib/site-config.ts` → `FORMSPREE_ENDPOINT`) is
 public by design and doesn't need an env var.
 
-## GitHub Pages deployment
+## GitHub Pages deployment guide
 
-Push the repository to GitHub and enable GitHub Actions in the repository's
-Pages settings. The workflow in [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml)
-builds the static site and publishes it automatically on pushes to `main`.
-It sets the project-site base path automatically, so a repository at
-`username.github.io/felix-portfolio` works without manual link changes.
+The public portfolio is exported as static HTML, CSS, and JavaScript into
+`out/`. GitHub Pages can host that output directly. The included workflow at
+[`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml)
+builds and deploys it automatically whenever `main` changes.
 
-The static GitHub Pages build includes the public portfolio only. The admin
-dashboard and its server actions are kept in [`admin/`](./admin) and
-[`proxy-server.ts`](./proxy-server.ts); deploy those with a server-capable
-Next.js host when content management is needed.
+### First-time setup
+
+1. Push this repository to GitHub. For a project site, the repository can be
+  named anything, for example `felix-portfolio`. A user site must use the
+  repository name `<username>.github.io`.
+2. Open the repository on GitHub and go to **Settings → Pages**.
+3. Under **Build and deployment**, choose **GitHub Actions** as the source.
+4. Merge or push the deployment workflow to `main`.
+5. Open **Actions** and wait for **Deploy to GitHub Pages** to finish.
+6. Visit `https://<username>.github.io/<repository-name>/` for a project site,
+  or `https://<username>.github.io/` for a user site.
+
+The workflow sets `NEXT_PUBLIC_BASE_PATH` from the repository name, so links,
+styles, scripts, and images work from a project-site subdirectory without
+manual configuration.
+
+### Local verification
+
+Run the same build locally before pushing:
+
+```bash
+pnpm install
+pnpm build
+```
+
+The command must finish successfully and create an `out/` directory. The
+build can complete without Supabase network access; public blog posts and
+publications will show their empty states until Supabase is available during
+the build.
+
+### Important limitation
+
+GitHub Pages hosts only the public portfolio. The admin dashboard uses
+Supabase Auth, cookies, and Server Actions, so it cannot run on GitHub Pages.
+The server-only admin implementation is kept in [`admin/`](./admin) and
+[`proxy-server.ts`](./proxy-server.ts). Deploy those parts with a
+server-capable Next.js host when content management is needed.
 
 ## Supabase setup
 
@@ -99,13 +131,14 @@ Enquiries land in Felix's Formspree dashboard/inbox, not in this app.
 
 `/admin` is gated by Supabase Auth, enforced in two places:
 
-- `proxy.ts` (Next 16's replacement for `middleware.ts`) redirects any
+- [`proxy-server.ts`](./proxy-server.ts) redirects any
   unauthenticated request to `/admin/login`.
-- Every Server Action in `app/admin/actions.ts` independently re-checks
+- Every Server Action in [`admin/actions.ts`](./admin/actions.ts) independently re-checks
   the session before touching the database — a Server Action is a
   directly callable endpoint, so the proxy check alone isn't enough.
 
-Sign in at `/admin/login` with the Supabase Auth user created above.
+Sign in at `/admin/login` with the Supabase Auth user created above when the
+admin application is deployed to a server-capable host.
 
 ## Content
 
