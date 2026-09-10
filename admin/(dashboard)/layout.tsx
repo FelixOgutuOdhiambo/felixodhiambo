@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { LayoutDashboard, Newspaper, GraduationCap, LogOut } from "lucide-react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
-import { signOut } from "@/app/admin/actions";
+import { signOut } from "@/admin/actions";
 import { Button } from "@/components/ui/button";
 
 const NAV = [

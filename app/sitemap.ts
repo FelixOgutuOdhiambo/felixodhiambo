@@ -3,6 +3,8 @@ import { SITE_URL } from "@/lib/site-config";
 import { PROJECTS } from "@/lib/content/projects";
 import { getPublishedPosts } from "@/lib/supabase/blog";
 
+export const dynamic = "force-static";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     "",

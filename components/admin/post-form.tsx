@@ -14,7 +14,7 @@ import {
   updatePost,
   uploadBlogCoverImage,
   type PostInput,
-} from "@/app/admin/actions";
+} from "@/admin/actions";
 import type { BlogPost } from "@/lib/supabase/types";
 
 function slugify(value: string) {
