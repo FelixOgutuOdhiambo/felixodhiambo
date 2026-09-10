@@ -13,7 +13,7 @@ import {
   updatePublication,
   uploadPublicationFile,
   type PublicationInput,
-} from "@/app/admin/actions";
+} from "@/admin/actions";
 import type { Publication } from "@/lib/supabase/types";
 
 export function PublicationForm({ publication }: { publication?: Publication }) {

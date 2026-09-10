@@ -4,7 +4,7 @@ import { useTransition } from "react";
 import Link from "next/link";
 import { Loader2, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { deletePublication, togglePublishPublication } from "@/app/admin/actions";
+import { deletePublication, togglePublishPublication } from "@/admin/actions";
 
 export function PublicationRowActions({
   id,

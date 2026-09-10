@@ -17,7 +17,7 @@ Supabase. The previous static HTML/CSS/JS site is preserved as-is in
 - **Backend:** Supabase (Postgres, Auth, RLS, Storage)
 - **Contact form:** Formspree (submits client-side, no backend involved)
 - **Analytics:** Vercel Analytics + Speed Insights
-- **Deployment:** Vercel
+- **Deployment:** GitHub Pages for the public site; a server-capable host is required for the admin dashboard
 
 ## Getting started
 
@@ -47,6 +47,19 @@ Add the same variables in Vercel's project settings for production/preview.
 
 The Formspree endpoint (`lib/site-config.ts` → `FORMSPREE_ENDPOINT`) is
 public by design and doesn't need an env var.
+
+## GitHub Pages deployment
+
+Push the repository to GitHub and enable GitHub Actions in the repository's
+Pages settings. The workflow in [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml)
+builds the static site and publishes it automatically on pushes to `main`.
+It sets the project-site base path automatically, so a repository at
+`username.github.io/felix-portfolio` works without manual link changes.
+
+The static GitHub Pages build includes the public portfolio only. The admin
+dashboard and its server actions are kept in [`admin/`](./admin) and
+[`proxy-server.ts`](./proxy-server.ts); deploy those with a server-capable
+Next.js host when content management is needed.
 
 ## Supabase setup
 

@@ -9,7 +9,9 @@ export const revalidate = 60;
 
 export async function generateStaticParams() {
   const posts = await getPublishedPosts();
-  return posts.map((post) => ({ slug: post.slug }));
+  return posts.length > 0
+    ? posts.map((post) => ({ slug: post.slug }))
+    : [{ slug: "__no-posts__" }];
 }
 
 export async function generateMetadata({
